@@ -1,5 +1,8 @@
 import atexit
 import requests
+import sys
+
+url = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:5000/'
 
 while True:
     print('Enter username: ', end='')
@@ -8,7 +11,7 @@ while True:
     print('Enter password: ', end='')
     password = input()
 
-    response = requests.post('http://127.0.0.1:5000/login',
+    response = requests.post(url + 'login',
                              json={'username': username, 'password': password})
     if response.status_code == 200:
         break
@@ -17,7 +20,7 @@ while True:
 
 
 def exit_handler():
-    requests.post('http://127.0.0.1:5000/logout',
+    requests.post(url + 'logout',
                   json={'username': username, 'password': password})
 
 
@@ -29,7 +32,7 @@ while True:
     if len(text) == 0:
         continue
 
-    response = requests.post('http://127.0.0.1:5000/send',
+    response = requests.post(url + 'send',
                              json={'username': username, 'password': password, 'text': text})
     if response.status_code == 200:
         print('Message sent')
