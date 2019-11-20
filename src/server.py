@@ -2,14 +2,19 @@ from flask import Flask, request
 from datetime import datetime
 import time
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 messages = []
 users = {}
 users_online = set()
 
 
-@app.route('/status')
+@application.route('/')
+def index():
+    return '<a href="/status">status</a><br><a href="/date">date</a><br><a href="/messages">messages</a><br>'
+
+
+@application.route('/status')
 def status():
     return {
         'users': len(users),
@@ -18,12 +23,12 @@ def status():
     }
 
 
-@app.route('/date')
+@application.route('/date')
 def date():
     return datetime.now().strftime('%d/%m/%Y %H:%M:%S')
 
 
-@app.route('/login', methods=['POST'])
+@application.route('/login', methods=['POST'])
 def login():
     username = request.json.get('username', '')
     password = request.json.get('password', '')
@@ -43,7 +48,7 @@ def login():
         return {'error': 'Invalid username or password'}, 401
 
 
-@app.route('/logout', methods=['POST'])
+@application.route('/logout', methods=['POST'])
 def logout():
     username = request.json.get('username', '')
     password = request.json.get('password', '')
@@ -53,7 +58,7 @@ def logout():
     return {'ok': True}
 
 
-@app.route('/send', methods=['POST'])
+@application.route('/send', methods=['POST'])
 def send():
     username = request.json.get('username', '')
     password = request.json.get('password', '')
@@ -75,7 +80,7 @@ def send():
     return {'ok': True}
 
 
-@app.route('/messages')
+@application.route('/messages')
 def messages_method():
     after = float(request.args.get('after', 0))
     filtered_messages = [message for message in messages if message['time'] > after]
@@ -83,4 +88,4 @@ def messages_method():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
