@@ -2,5 +2,5 @@ virtualenv --python=python3 env
 source env/bin/activate
 pip install --requirement requirements.txt
 python src/server.py
-python src/sender.py
-python src/receiver.py
+python src/sender.py https://flaskmsgr.herokuapp.com/
+python src/receiver.py https://flaskmsgr.herokuapp.com/
