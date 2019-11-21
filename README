@@ -4,3 +4,5 @@ pip install --requirement requirements.txt
 python src/server.py
 python src/sender.py https://flaskmsgr.herokuapp.com/
 python src/receiver.py https://flaskmsgr.herokuapp.com/
+
+pyuic5 design.ui -o design.py
