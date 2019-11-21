@@ -2,3 +2,4 @@ Flask
 requests
 gunicorn
 pyqt5
+flask_sqlalchemy
