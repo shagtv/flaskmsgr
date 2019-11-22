@@ -20,7 +20,7 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         quit = QtWidgets.QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
-        threading.Thread(target=self.receive).start()
+        threading.Thread(target=self.receive, daemon=True).start()
 
     def closeEvent(self, event):
         username = self.lineEdit.text()
