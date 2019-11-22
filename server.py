@@ -160,5 +160,11 @@ def messages_method():
     return {'messages': [i.serialize for i in filtered_messages]}
 
 
+@application.route('/users')
+def users():
+    online_users = Users.query.filter_by(online=True).all()
+    return {'users': [i.username for i in online_users]}
+
+
 if __name__ == '__main__':
     application.run(debug=True)

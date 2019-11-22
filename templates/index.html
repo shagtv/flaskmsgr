@@ -1,7 +1,45 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
- {% block content %}
-    <a href="/status">status</a><br>
-    <a href="/date">date</a><br>
-    <a href="/messages">messages</a>
- {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row messenger hidden">
+        <div class="col-md-8">
+             <h4>Messages</h4>
+            <div class="form-group messages"></div>
+        </div>
+        <div class="col-md-4">
+            <h4>Users online</h4>
+            <div class="form-group users"></div>
+        </div>
+    </div>
+
+    <div class="row messenger hidden">
+        <div class="col-md-12">
+            <form class="form-inline form-msg">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="message" class="sr-only">Message</label>
+                    <input type="text" class="form-control" id="message" placeholder="Enter a message here">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
