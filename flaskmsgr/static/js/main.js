@@ -4,12 +4,11 @@ let after = 0;
 colors = {};
 
 const talkBtn = document.querySelector('.talk');
+const messageField = document.querySelector('#message');
 
-try {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition;
+if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
-
-    const messageField = document.querySelector('#message');
 
     recognition.onstart = () => {
         console.log('voice is activated, you can to microphone');
@@ -31,8 +30,6 @@ try {
     });
 
     talkBtn.classList.remove('hidden');
-} catch (error) {
-    alert(error);
 }
 
 function getRandomColor() {
