@@ -4,29 +4,36 @@ let after = 0;
 colors = {};
 
 const talkBtn = document.querySelector('.talk');
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
 
-const messageField = document.querySelector('#message');
+try {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
 
-recognition.onstart = () => {
-    console.log('voice is activated, you can to microphone');
+    const messageField = document.querySelector('#message');
+
+    recognition.onstart = () => {
+        console.log('voice is activated, you can to microphone');
+    }
+
+    recognition.onresult = (event) => {
+        talkBtn.classList.remove('btn-danger');
+        talkBtn.classList.add('btn-success');
+
+        const current = event.resultIndex;
+        const transcript = event.results[current][0].transcript;
+        messageField.value = transcript;
+    }
+
+    talkBtn.addEventListener('click', () => {
+        recognition.start();
+        talkBtn.classList.remove('btn-success');
+        talkBtn.classList.add('btn-danger');
+    });
+
+    talkBtn.classList.remove('hidden');
+} catch (error) {
+    alert(error);
 }
-
-recognition.onresult = (event) => {
-    talkBtn.classList.remove('btn-danger');
-    talkBtn.classList.add('btn-success');
-
-    const current = event.resultIndex;
-    const transcript = event.results[current][0].transcript;
-    messageField.value = transcript;
-}
-
-talkBtn.addEventListener('click', () => {
-    recognition.start();
-    talkBtn.classList.remove('btn-success');
-    talkBtn.classList.add('btn-danger');
-});
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
