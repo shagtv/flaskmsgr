@@ -1,4 +1,4 @@
-from server import application
+from flaskmsgr import application
 
 if __name__ == "__main__":
     application.run()

@@ -1,42 +1,8 @@
-from flask import Flask, request, render_template
+from flask import render_template, request
+from flaskmsgr.model import Messages, Users
 from datetime import datetime
+from flaskmsgr import application, db
 import time
-from flask_sqlalchemy import SQLAlchemy
-
-application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(application)
-
-
-class Messages(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255))
-    text = db.Column(db.String(255))
-    time = db.Column(db.Float)
-
-    def __repr__(self):
-        return self.username + ':' + self.text
-
-    @property
-    def serialize(self):
-        """Return object data in easily serializable format"""
-        return {
-            'id': self.id,
-            'username': self.username,
-            'text': self.text,
-            'time': self.time
-        }
-
-
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255))
-    password = db.Column(db.String(255))
-    online = db.Column(db.Boolean)
-
-    def __repr__(self):
-        return self.username
 
 
 @application.route('/')
@@ -164,7 +130,3 @@ def messages_method():
 def users():
     online_users = Users.query.filter_by(online=True).all()
     return {'users': [i.username for i in online_users]}
-
-
-if __name__ == '__main__':
-    application.run(debug=True)
