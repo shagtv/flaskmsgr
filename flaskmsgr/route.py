@@ -119,10 +119,7 @@ def save_message(username, text):
 @application.route('/messages')
 def messages_method():
     after = float(request.args.get('after', 0))
-
-    all_messages = Messages.query.order_by(Messages.time).all()
-
-    filtered_messages = [message for message in all_messages if message.time > after]
+    filtered_messages = Messages.query.filter(Messages.time > after).order_by(Messages.time).all()
     return {'messages': [i.serialize for i in filtered_messages]}
 
 

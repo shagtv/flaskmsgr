@@ -3,6 +3,31 @@ let password = '';
 let after = 0;
 colors = {};
 
+const talkBtn = document.querySelector('.talk');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+
+const messageField = document.querySelector('#message');
+
+recognition.onstart = () => {
+    console.log('voice is activated, you can to microphone');
+}
+
+recognition.onresult = (event) => {
+    talkBtn.classList.remove('btn-danger');
+    talkBtn.classList.add('btn-success');
+
+    const current = event.resultIndex;
+    const transcript = event.results[current][0].transcript;
+    messageField.value = transcript;
+}
+
+talkBtn.addEventListener('click', () => {
+    recognition.start();
+    talkBtn.classList.remove('btn-success');
+    talkBtn.classList.add('btn-danger');
+});
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -35,6 +60,7 @@ function getMessages() {
             if (text) {
                 let box = $(".messages");
                 box.html(text + box.html());
+
             }
         }
     });
@@ -79,6 +105,8 @@ $(function(){
             success: function (data) {
                 $('.form-signin').hide();
                 $('.messenger').removeClass('hidden');
+                getUsers();
+                messageField.focus();
             },
             data: JSON.stringify({
                 'username': username,
@@ -121,6 +149,7 @@ $(function(){
             contentType: 'application/json',
             success: function (data) {
                 $('#message').val('');
+                messageField.focus();
                 getMessages();
             },
             data: JSON.stringify({
